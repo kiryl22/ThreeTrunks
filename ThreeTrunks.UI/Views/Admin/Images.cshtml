@@ -1,0 +1,128 @@
+﻿<div>
+    <div class="col-md-4">
+        <div class="list-group">
+            <a ng-repeat="item in categories" ng-click="selectCategory(item)" ng-class="{active:targetCategory.id == item.id}" class="list-group-item">
+                <h5 class="list-group-item-heading">{{item.name}} <span ng-if="item.isBasket" class='badge'>{{item.images.length}}</span></h5>
+                
+                @*<p class="list-group-item-text">{{item.description}}</p>*@
+            </a>
+            <a ng-click="addNewCategory()" class="list-group-item" ng-class="{active:targetCategory.id == 0}">
+                <h5 class="list-group-item-heading" style="font-style: italic">Добавить новую категорию</h5>
+            </a>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <accordion close-others="true">
+            <accordion-group heading="Параметры категории" is-open="status.isFirstOpen" is-disabled="status.isFirstDisabled">
+                <edit-category save-call="saveCategory" category="targetCategory"></edit-category>
+            </accordion-group>
+            <accordion-group collapse="status.isNew"  is-disabled="status.isNew">
+                <accordion-heading>
+                    Изображения <span class='badge'>{{targetCategory.images.length}}</span>
+                </accordion-heading>
+                <div ng-repeat="img in targetCategory.images" class="col-xs-6 col-md-3">
+                    <div class="image-item">
+                        <div class="thumbnail">
+                            <img alt="{{img.title}}" src="{{img.thumbnail}}"/>
+                        </div>
+                        <button type="button" ng-click="editImage(img)" class="btn btn-default btn-xs image-btn">
+                            <span class="glyphicon glyphicon-wrench"></span>
+                        </button>
+                        <button type="button" ng-click="deleteImage(img)" class="btn btn-default btn-xs image-btn" style="right: 31px;">
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                    </div>
+                </div>
+            </accordion-group>
+            <accordion-group collapse="status.isNew" heading="Добавить изображения"  is-disabled="status.isNew">
+                <div ng-controller="uploadCtrl" nv-file-drop="" uploader="uploader" ng-show="targetCategory.id > 0" class="col-md-12">
+
+                    <div ng-show="uploader.isHTML5">
+                        <div class="well my-drop-zone" nv-file-over="" uploader="uploader">
+                            Перетащите файл
+                        </div>
+                    </div>
+
+                    <input type="file" class="fileInput" title="Поиск файлов" nv-file-select="" uploader="uploader" multiple /><br />
+
+                    <div class="col-md-12" style="margin-bottom: 40px">
+                        <h3>Очередь загрузки</h3>
+                        <p>Файлов в очереди: {{ uploader.queue.length }}</p>
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th width="50%">Имя</th>
+                                    <th ng-show="uploader.isHTML5">Размер</th>
+                                    <th ng-show="uploader.isHTML5">Прогресс</th>
+                                    <th>Статус</th>
+                                    <th>Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="item in uploader.queue">
+                                    <td>
+                                        <strong>{{ item.file.name }}</strong>
+                                    </td>
+                                    <td ng-show="uploader.isHTML5" nowrap>{{ item.file.size/1024/1024|number:2 }} MB</td>
+                                    <td ng-show="uploader.isHTML5">
+                                        <div class="progress" style="margin-bottom: 0;">
+                                            <div class="progress-bar" role="progressbar" ng-style="{ 'width': item.progress + '%' }"></div>
+                                        </div>
+                                    </td>
+                                    <td class="text-center">
+                                        <span ng-show="item.isSuccess"><i class="glyphicon glyphicon-ok"></i></span>
+                                        <span ng-show="item.isCancel"><i class="glyphicon glyphicon-ban-circle"></i></span>
+                                        <span ng-show="item.isError"><i class="glyphicon glyphicon-remove"></i></span>
+                                    </td>
+                                    <td nowrap>
+                                        <button type="button" class="btn btn-success btn-xs" ng-click="item.upload()" ng-disabled="item.isReady || item.isUploading || item.isSuccess">
+                                            <span class="glyphicon glyphicon-upload"></span> Загрузить
+                                   
+                                        </button>
+                                        <button type="button" class="btn btn-warning btn-xs" ng-click="item.cancel()" ng-disabled="!item.isUploading">
+                                            <span class="glyphicon glyphicon-ban-circle"></span> Отмена
+                                   
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-xs" ng-click="item.remove()">
+                                            <span class="glyphicon glyphicon-trash"></span> Удалить
+                                   
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div>
+                            <div>
+                                Прогресс очереди:
+                                <div class="progress" style="">
+                                    <div class="progress-bar" role="progressbar" ng-style="{ 'width': uploader.progress + '%' }"></div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-success btn-s" ng-click="uploader.uploadAll()" ng-disabled="!uploader.getNotUploadedItems().length">
+                                <span class="glyphicon glyphicon-upload"></span> Загрузить всё
+                            </button>
+                            <button type="button" class="btn btn-warning btn-s" ng-click="uploader.cancelAll()" ng-disabled="!uploader.isUploading">
+                                <span class="glyphicon glyphicon-ban-circle"></span> Остановить всё
+                            </button>
+                            <button type="button" class="btn btn-danger btn-s" ng-click="uploader.clearQueue()" ng-disabled="!uploader.queue.length">
+                                <span class="glyphicon glyphicon-trash"></span> Удалить всё
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </accordion-group>
+        </accordion>
+
+    </div>
+</div>
+
+<script type="text/ng-template" id="deleteImage">
+        <div class="modal-body">
+            <h5 class="modal-title">Подтверждение удления для "{{img.title}}"</h5>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">Удалить</button>
+            <button class="btn btn-warning" ng-click="cancel()">Отмена</button>
+        </div>
+</script>

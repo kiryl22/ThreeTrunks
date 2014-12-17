@@ -1,0 +1,28 @@
+﻿<form role="form" name="categoryForm" ng-submit="save(category)" novalidate>
+    <div class="form-group" ng-class="{'has-error': categoryForm.name.$invalid}">
+        <label>Название категории</label>
+        <input ng-readonly="category.isBasket" type="text" name="name" ng-model="category.name" class="form-control" ng-maxlength="25" required placeholder="Введите название для категории">
+        <span class="error" ng-show="categoryForm.name.$error.maxlength">Имя категории должно содержать не более 25 симлов
+        </span>
+    </div>
+    <div class="form-group" ng-class="{'has-error': categoryForm.description.$invalid}">
+        <label>Описнание категории</label>
+        <input ng-readonly="category.isBasket" ng-model="category.description" name="description" type="text" class="form-control" ng-maxlength="250" placeholder="Описание категории">
+        <span class="error" ng-show="categoryForm.description.$invalid">Описание категории должно содержать не более 250 симлов
+        </span>
+    </div>
+
+    <div class="checkbox">
+        <label>
+            <input ng-readonly="category.isBasket" ng-model="category.isGallery" ng-disabled="category.isBasket" type="checkbox">
+            Отображать категорию в галерее
+        </label>
+    </div>
+    <ol class="breadcrumb" ng-show="category.isGallery">
+        <li class="active">gallery</li>
+        <li>
+            <input ng-model="category.galleryLink" type="text" class="form-control" ng-required="category.isGallery" ng-maxlength="25" placeholder="Ссылка в галерее"></li>
+    </ol>
+    <button type="submit" class="btn btn-default" ng-disabled="categoryForm.$invalid || category.isBasket">Сохранить</button>
+
+</form>

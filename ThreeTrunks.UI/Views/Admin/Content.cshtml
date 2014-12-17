@@ -1,0 +1,6 @@
+﻿<div class="col-md-12">
+    <form name="settingsForm" role="form" ng-submit="saveSettings()" novalidate>
+        <editor-for ng-repeat="setting in settings"></editor-for>
+        <button type="submit" class="btn btn-default" ng-disabled="settingsForm.$invalid">Сохранить</button>
+    </form>
+</div>

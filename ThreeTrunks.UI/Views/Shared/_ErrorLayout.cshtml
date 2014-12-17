@@ -1,0 +1,22 @@
+﻿
+@{
+    Layout = null;
+}
+
+@{
+   string pageTitle=@ViewBag.Title ?? "Ошибка";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@pageTitle</title>
+</head>
+<body style="background-color: black;">
+    <div>
+        @RenderBody() 
+    </div>
+</body>
+</html>

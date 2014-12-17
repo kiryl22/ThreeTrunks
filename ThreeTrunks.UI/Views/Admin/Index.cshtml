@@ -1,0 +1,21 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container admin-well">
+    <ul class="nav nav-tabs" role="tablist">
+        <li ng-class="{active:isActive('/images')}"><a href="#/images">Управление изображениями</a></li>
+        <li ng-class="{active:isActive('/content')}"><a href="#/content">Содержание</a></li>
+    </ul>
+    <a class="logout-btn" href="javascript:document.getElementById('logoutForm').submit()">
+        <span class="glyphicon glyphicon-log-out"></span>Выйти
+    </a>
+    @using (Html.BeginForm("LogOff", "Admin", FormMethod.Post, new { id = "logoutForm" }))
+    {
+        @Html.AntiForgeryToken()
+    }
+    <div class="content container">
+        <div ng-view></div>
+    </div>
+</div>
+

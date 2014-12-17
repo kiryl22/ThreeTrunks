@@ -1,0 +1,30 @@
+﻿<div class="modal-body">
+    <div class="form-group">
+        <label>Название</label>
+        <input type="text" ng-model="img.title" class="form-control" placeholder="Введите название для изображения">
+    </div>
+    <div class="form-group">
+        <label>Описнание</label>
+        <input ng-model="img.description" type="text" class="form-control" placeholder="Описание изображения">
+    </div>
+    <div class="form-group">
+        <label>Категория</label>
+        <select class="form-control" ng-model="img.categoryId" ng-change="imgChanged(img)" ng-options="category.id as category.name for category in categories"></select><br>
+    </div>
+    <div class="checkbox">
+        <label>
+            <input ng-model="img.isCarousel" type="checkbox">
+            Показать в карусели
+        </label>
+    </div>
+    <div ng-show="img.isCarousel" class="form-group">
+        <label>Ссылка</label>
+        <input ng-model="img.followUrl" type="text" class="form-control" placeholder="Введите ссылку на страницу или ресурс">
+    </div>
+
+
+</div>
+<div class="modal-footer">
+    <button class="btn btn-primary" ng-click="ok()">Сохранить</button>
+    <button class="btn btn-warning" ng-click="cancel()">Отмена</button>
+</div>

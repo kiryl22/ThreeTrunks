@@ -1,0 +1,39 @@
+﻿@using System.Web.Optimization
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Администрирование - 3stvola.by</title>
+    <link rel="SHORTCUT ICON" href="@Url.Content("~/Content/images/favicon.ico")"/>
+
+    <link href="~/Content/font.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    @RenderSection("css", false)
+
+    
+    @Scripts.Render("~/bundles/jquery")
+
+    @Scripts.Render("~/bundles/bootstrap-input")
+    @Scripts.Render("~/bundles/angular")
+    @Scripts.Render("~/bundles/file-upload")
+    @Scripts.Render("~/bundles/admin-app")
+    
+    @Styles.Render("~/bundles/alertify-css")
+        @Scripts.Render("~/bundles/alertify")
+
+</head>
+<body>
+    <div ng-app="adminApp" ng-controller="mainCtrl" class="container body-content">
+        <div class="splash" loading-widget>
+            <h2>Загрузка</h2>
+        </div>
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - 3stvola.by</p>
+        </footer>
+    </div>
+</body>
+</html>

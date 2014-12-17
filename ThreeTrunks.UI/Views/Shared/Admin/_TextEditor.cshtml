@@ -1,0 +1,7 @@
+﻿<div class="form-group" ng-class="{'has-error': settingsForm.name.$invalid}">
+    <label>
+        {{setting.caption}}
+    </label>
+    <input ng-model="setting.value" name="{{setting.key}}" type="text" class="form-control" ng-maxlength="250" placeholder="Введите текст">
+    <span class="error" ng-show="settingsForm.name.$error.maxlength">Текст не должен превышать 250 символов</span>
+</div>
